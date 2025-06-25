@@ -89,14 +89,15 @@ SELECT * FROM ORDERS;
 BEGIN;
 Query OK, 0 rows affected (0.000 sec)
 
---2. Create a SAVEPOINT before each update: - Reduce price of all -items by 10%. 
-SAVEPOINT discount1;
-Query OK, 0 rows affected (0.001 sec)
+--2. Create a SAVEPOINT before each update: - Reduce price of all -items by 10%.
 
 UPDATE ORDERS
 SET PRICE = PRICE * 0.90;
 Query OK, 4 rows affected (0.006 sec)
 Rows matched: 4  Changed: 4  Warnings: 0
+
+SAVEPOINT discount1;
+Query OK, 0 rows affected (0.001 sec)
 
 SELECT * FROM ORDERS;
 +----------+---------------+--------------+----------+----------+
@@ -110,12 +111,12 @@ SELECT * FROM ORDERS;
 4 rows in set (0.000 sec)
 
 --Further reduce price of products with QUANTITY = 1 by an --additional 5%.
-SAVEPOINT discount2;
-Query OK, 0 rows affected (0.000 sec)
-
 UPDATE ORDERS
 SET PRICE = PRICE * 0.95
 WHERE QUANTITY = 1;
+
+SAVEPOINT discount2;
+Query OK, 0 rows affected (0.000 sec)
 
 SELECT * FROM ORDERS;
 +----------+---------------+--------------+----------+----------+
